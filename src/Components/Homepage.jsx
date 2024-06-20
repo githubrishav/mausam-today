@@ -4,9 +4,15 @@ import logos from "./../../public/logos.png";
 
 const Homepage = () => {
 
-
   const [city, setCity] = useState("");
   const [data, setData] = useState(null);
+
+  useEffect(()=>{
+    const savedData = JSON.parse(localStorage.getItem("data"));
+    setData(savedData);
+  },[])
+
+
 
   const fetchData = () => {
     axios
@@ -15,6 +21,7 @@ const Homepage = () => {
       )
       .then((res) => {
         setData(res.data);
+        localStorage.setItem("data", JSON.stringify(res.data));
         console.log(res.data);
       }).catch((err) => {
         console.log(err.message);
